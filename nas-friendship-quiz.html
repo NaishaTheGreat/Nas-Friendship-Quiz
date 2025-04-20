@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Well Do You Know Nas?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #fefcea, #f1daff);
+      padding: 20px;
+    }
+    .container {
+      max-width: 650px;
+      margin: auto;
+      background: #fff0f6;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #9b59b6;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 6px 0;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #e6ccff;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+    .options button:hover {
+      background-color: #d1b3ff;
+    }
+    #result {
+      text-align: center;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    input {
+      font-size: 1em;
+      padding: 8px;
+      width: calc(100% - 20px);
+      margin-bottom: 20px;
+      border: 2px solid #d1b3ff;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>How Well Do You Know Nas?</h1>
+    <div id="start">
+      <p>Enter your name to begin:</p>
+      <input type="text" id="username" placeholder="Your name here..." />
+      <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+    <div id="quiz" style="display:none;"></div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What are Nas's favorite subjects?",
+        options: ["Math and History", "Physics and History", "Biology and Chemistry", "Geography and Civics"],
+        answer: "Physics and History"
+      },
+      {
+        question: "Which instrument does Nas play?",
+        options: ["Guitar", "Keyboard", "Drums", "Flute"],
+        answer: "Keyboard"
+      },
+      {
+        question: "Which hobby does Nas enjoy?",
+        options: ["Swimming", "Drawing", "Cooking", "Coding"],
+        answer: "Drawing"
+      },
+      {
+        question: "Who's Naisha's favourite artist?",
+        options: ["Fujii Kaze", "Forrest Frank", "Alec Benjamin", "Connor Price"],
+        answer: "Alec Benjamin"
+      },
+      {
+        question: "Which YouTube channel cracks Nas up?",
+        options: ["MrBeast", "Slayy Point", "Kurzgesagt", "Troom Troom"],
+        answer: "Slayy Point"
+      },
+      {
+        question: "What kind of songs does Nas sometimes write?",
+        options: ["Only love songs", "Silly jingles", "Songs about her feelings", "Rap battles"],
+        answer: "Songs about her feelings"
+      },
+      {
+        question: "How old is Naisha?",
+        options: ["13", "14", "15", "16"],
+        answer: "15"
+      },
+      {
+        question: "Does Naisha believe in horoscopes?",
+        options: ["Yes", "No", "Only when it's good", "She reads but doesn't believe"],
+        answer: "No"
+      },
+      {
+        question: "What is Naisha's favourite colour?",
+        options: ["Pink", "Purple", "Yellow", "Blue"],
+        answer: "Yellow"
+      },
+      {
+        question: "What is Naisha's favourite TV show?",
+        options: ["The Good Doctor", "Friends", "Never Have I Ever", "Stranger Things"],
+        answer: "The Good Doctor"
+      }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let user = "";
+
+    function startQuiz() {
+      user = document.getElementById("username").value.trim();
+      if (!user) {
+        alert("Please enter your name first!");
+        return;
+      }
+      document.getElementById("start").style.display = "none";
+      document.getElementById("quiz").style.display = "block";
+      loadQuiz();
+    }
+
+    function loadQuiz() {
+      const quizContainer = document.getElementById("quiz");
+      const questionData = quizData[currentQ];
+
+      quizContainer.innerHTML = `
+        <div class="question">
+          <h3>Q${currentQ + 1}: ${questionData.question}</h3>
+          <div class="options">
+            ${questionData.options.map(opt => `<button onclick="checkAnswer('${opt}')">${opt}</button>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected) {
+      if (selected === quizData[currentQ].answer) score++;
+      currentQ++;
+      if (currentQ < quizData.length) {
+        loadQuiz();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      let message = "";
+      if (score === 10) message = "🎨 You're basically Nas' twin soul!";
+      else if (score >= 7) message = "✨ You know Nas super well! Impressive!";
+      else if (score >= 4) message = "😅 You know her kinda, but not deeply.";
+      else message = "💀 Who even are you?? Try again.";
+
+      document.getElementById("quiz").innerHTML = "";
+      document.getElementById("result").innerText = `${user}, you scored ${score}/10. ${message}`;
+    }
+  </script>
+</body>
+</html>
